@@ -18,7 +18,33 @@ def playGuide():
 -----
 HOW IT WORKS:
 
+| INTRO |
 
+This game is inspired by the Wordle game currently run by NY Times as of writing.
+
+This game is very small and simple and is written in Python, a programming language, in a singular main.py file.
+
+| GAME RULES |
+
+You get 6 tries to guess a five-lettered word in the English Dictionary. The word can be any valid word.
+
+Letters in your guess that are (a) in the actual word and (b) in the right position within the word,
+are signified by a green box (🟩) below the letter.
+
+Letters in your guess that are (a) in the actual word but (b) not in the right position within the word,
+are signified by a blue box (🟦) below the letter.
+
+Letters in your guess that are not within the word at all are signified by a red box (🟥) below the letter.
+
+| CONCLUSION |
+
+That's it! This game written made by Prakhar Trivedi in 2022. You can check it out at the GitHub Repository:
+
+            https://github.com/Prakhar896/WordleButPython
+
+Thank you for downloading this game, and good luck, because you will need it. ;)
+
+-----
     """)
 
 
@@ -29,14 +55,10 @@ def playGame():
     guesses = []
     triesLeft = 6
     print()
-    
-    ## DEBUG ONLY
-    print(newWord)
-    print()
 
     ## Main Guesses Loop
+    print("LETS START THE GAME!")
     while (not gottenCorrect) and triesLeft > 0:
-        print("LETS START THE GAME!")
         while True:
             ## Input Validation Loop
             guess = input(("Guess a 5 letter word now ({} Tries Left): ".format(triesLeft)))
@@ -65,14 +87,15 @@ def playGame():
         
         print()
         if guess == newWord:
-            print("CONGRATULATIONS! YOU GOT IT! It was:", newWord)
+            print("🎉🎉🎉 CONGRATULATIONS! YOU GOT IT! It was:", newWord)
             print("You beat the game with {} tries left!".format(triesLeft))
             print()
             gottenCorrect = True
             break
 
         ## Loop through letters and form dict
-        guessDict = {}
+        lettersList = [x.upper() for x in guess]
+        emojisList = []
         currentEmoji = ''
         charPosition = 0
         for char in guess:
@@ -85,19 +108,27 @@ def playGame():
                             currentEmoji = '🟦'
             else:
                 currentEmoji = '🟥'
-            guessDict[char] = currentEmoji
-
-        print("Guess Dict:", guessDict)
-        print()
-        keysAsCaps = []
-        for key in guessDict.keys():
-            keysAsCaps.append(key.upper())
+            emojisList.append(currentEmoji)
+            charPosition += 1
         
-        print(' '.join(keysAsCaps))
-        print(' '.join(guessDict.values()))
+        print(f"""
+
+{lettersList[0]}\t{lettersList[1]}\t{lettersList[2]}\t{lettersList[3]}\t{lettersList[4]}
+{emojisList[0]}\t{emojisList[1]}\t{emojisList[2]}\t{emojisList[3]}\t{emojisList[4]}
+
+        """)
 
         triesLeft -= 1
+        print()
         continue
+    
+    if gottenCorrect:
+        return
+    elif triesLeft == 0 and (not gottenCorrect):
+        print()
+        print("You ran out of tries! The word was:", newWord)
+        return
+
 
 
 
